@@ -2,9 +2,9 @@ chrome.runtime.onInstalled.addListener(function () {
 
     checkForUpdates();
 
-    chrome.alarms.create("5min", {
-        delayInMinutes: 1,
-        periodInMinutes: 1
+    chrome.alarms.create("10min", {
+        delayInMinutes: 10,
+        periodInMinutes: 10
     });
 
     chrome.alarms.onAlarm.addListener(function (alarm) {
