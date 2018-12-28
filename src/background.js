@@ -85,7 +85,7 @@ function parsePage(data) {
             //If we havn't notified the link do it.
             if (notifiedLinks.indexOf(link) < 0) {
                 notification(link, text);
-                chrome.tabs.create({ url: "https://www.st.nu" + link });
+                chrome.tabs.create({ url: "https://www.st.nu" + link, active: false });
                 notifiedLinks.push(link);
             }
         });
