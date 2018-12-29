@@ -15,6 +15,7 @@ chrome.runtime.onInstalled.addListener(function () {
     });
 
     chrome.notifications.onClicked.addListener(function (url) {
+        console.log('click notification');
         chrome.tabs.create({ url: url });
         chrome.notifications.clear(url);
     });
@@ -93,9 +94,6 @@ function parsePage(data) {
         chrome.storage.sync.set({ 'notifiedLinks': notifiedLinks }, function () {
             console.log('notifiedLinks is set to ' + notifiedLinks);
         });
-
-
     });
-
 
 }
