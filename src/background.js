@@ -8,8 +8,8 @@ chrome.runtime.onInstalled.addListener(function () {
     });
 
     chrome.alarms.onAlarm.addListener(function (alarm) {
-        if (alarm.name === "5min") {
-            console.log("alram alarm larm")
+        if (alarm.name === "10min") {
+            console.log("alarm larm")
             checkForUpdates();
         }
     });
