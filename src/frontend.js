@@ -26,9 +26,7 @@ jQuery(document).ready(function () {
                     return false; //break loop
                 }
             }
-        }
-
-        if(relativePath == "/"){
+        }else{
             //main page relace icons
             Object.keys(linksCache).forEach(function(link){
                 console.log(link);
@@ -39,5 +37,6 @@ jQuery(document).ready(function () {
                 $('.content a[href="'+link+'"] ').parent().find('.premium-label.m-icon-plus').addClass('cached-content');
             });
         }
+
     });
 });
