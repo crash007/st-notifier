@@ -128,7 +128,13 @@ function setBadgeText() {
     chrome.storage.local.get(['linksCache'], function (result) {
         console.log("Reading saved linksCache:");
         console.log(result);
-        var cacheLength = Object.entries(result.linksCache).length;
+        var cacheLength;
+        
+        if(result != null && result.linksCache != null) {
+            cacheLength = Object.entries(result.linksCache).length;
+        }else{
+            cacheLength = 0;
+        }
         console.log(cacheLength);
         chrome.browserAction.setBadgeText({ "text": cacheLength.toString() });
     });
