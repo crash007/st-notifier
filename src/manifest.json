@@ -13,5 +13,14 @@
 	"background": {
 		"scripts": ["libs/jquery-3.3.1.min.js", "background.js"],
 		"persistent": false
-	  }
+	},
+	"browser_action": {},
+	"content_scripts": [
+        {
+			"css": [ "frontend.css" ],
+            "matches": ["http://www.st.nu/*", "https://www.st.nu/*"],
+            "js": ["libs/jquery-3.3.1.min.js", "frontend.js"],
+            "run_at": "document_end"
+        }
+    ]
 }

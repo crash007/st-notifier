@@ -1,7 +1,7 @@
 chrome.runtime.onInstalled.addListener(function () {
 
     checkForUpdates();
-
+    
     chrome.alarms.create("10min", {
         delayInMinutes: 10,
         periodInMinutes: 10
@@ -20,7 +20,16 @@ chrome.runtime.onInstalled.addListener(function () {
         chrome.notifications.clear(url);
     });
 
+    //chrome.browserAction.onClicked.addListener(clearCache);
+    
 });
+
+
+function clearCache(){
+    console.log("clearing cache");
+    //saving empty object
+    saveLinksCache({});
+}
 
 function notification(link, text) {
     var url = "https://www.st.nu" + link;
@@ -43,6 +52,7 @@ function checkForUpdates() {
     });
 }
 
+//Collect new articles from main page
 function parsePage(data) {
 
     var links = {};
@@ -73,27 +83,63 @@ function parsePage(data) {
         links[link] = text;
     });
 
-    chrome.storage.sync.get(['notifiedLinks'], function (result) {
+    chrome.storage.local.get(['linksCache'], function (result) {
 
-        var notifiedLinks = result.notifiedLinks;
+        var linksCache = result.linksCache;
 
-        if (typeof notifiedLinks === 'undefined') {
-            notifiedLinks = [];
+        if (typeof linksCache === 'undefined') {
+            linksCache = {};
         }
-        console.log(notifiedLinks);
+
+        console.log(linksCache);
+        
+        var updateCache = false;
+        
         //Iterate all links found on page
         $.each(links, function (link, text) {
-            //If we havn't notified the link do it.
-            if (notifiedLinks.indexOf(link) < 0) {
+            
+            //Save and notify new articles
+            if ( !(link in linksCache) ){
                 notification(link, text);
-                chrome.tabs.create({ url: "https://www.st.nu" + link, active: false });
-                notifiedLinks.push(link);
+                var content = getArticleContent(link);
+                console.log(content)
+                linksCache[link]=content;
+                updateCache = true;
             }
         });
+        
+        if(updateCache){
+            saveLinksCache(linksCache)
+        }
 
-        chrome.storage.sync.set({ 'notifiedLinks': notifiedLinks }, function () {
-            console.log('notifiedLinks is set to ' + notifiedLinks);
+    });
+}
+
+function saveLinksCache(linksCache){
+    chrome.storage.local.set({ 'linksCache': linksCache }, function () {
+        console.log('Saving linksCache: '); 
+        console.log(linksCache);
+        chrome.storage.local.get(['linksCache'], function (result) {
+            console.log("Reading saved linksCache:");
+            console.log(result);
+            var cacheLength = Object.entries(result.linksCache).length;
+            console.log(cacheLength);
+            chrome.browserAction.setBadgeText({"text": cacheLength.toString()});
         });
     });
+}
 
+function getArticleContent(link){
+
+    var result;
+    jQuery.ajax({
+        url: "https://www.st.nu" + link,
+        success: function (data) {          
+            result = $(data).find('.single-article')[0].outerHTML;
+            //result = $($(data).find('.row.unpadded.single-article')[0])().html();                      
+        },
+        async: false
+    });
+    console.log(result);
+    return result;
 }
