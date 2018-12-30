@@ -1,5 +1,6 @@
 chrome.runtime.onInstalled.addListener(function () {
 
+    setBadgeText();
     checkForUpdates();
     
     chrome.alarms.create("10min", {
@@ -119,13 +120,17 @@ function saveLinksCache(linksCache){
     chrome.storage.local.set({ 'linksCache': linksCache }, function () {
         console.log('Saving linksCache: '); 
         console.log(linksCache);
-        chrome.storage.local.get(['linksCache'], function (result) {
-            console.log("Reading saved linksCache:");
-            console.log(result);
-            var cacheLength = Object.entries(result.linksCache).length;
-            console.log(cacheLength);
-            chrome.browserAction.setBadgeText({"text": cacheLength.toString()});
-        });
+        setBadgeText();
+    });
+}
+
+function setBadgeText() {
+    chrome.storage.local.get(['linksCache'], function (result) {
+        console.log("Reading saved linksCache:");
+        console.log(result);
+        var cacheLength = Object.entries(result.linksCache).length;
+        console.log(cacheLength);
+        chrome.browserAction.setBadgeText({ "text": cacheLength.toString() });
     });
 }
 
