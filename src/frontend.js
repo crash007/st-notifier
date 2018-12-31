@@ -23,6 +23,7 @@ jQuery(document).ready(function () {
                     $('.locked-wrapper').hide('slow');
                     $('.locked-article-image-wrapper').hide('slow');
                     $('.row.unpadded.single-article').replaceWith(value);
+                    $('.main-wrapper.main-fullwidth .extended-headline').after('<p style="color: orange;">Visar innehåll från cache.</p>');
                     return false; //break loop
                 }
             }
