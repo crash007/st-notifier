@@ -3,13 +3,19 @@ chrome.runtime.onInstalled.addListener(function () {
     setBadgeText();
     checkForUpdates();
     
-    chrome.alarms.create("10min", {
-        delayInMinutes: 10,
-        periodInMinutes: 10
+    chrome.storage.local.get({'intervall': 15}, function(result){
+        var intervall = result.intervall;
+        console.log(intervall);
+
+        chrome.alarms.create("checkerAlarm", {
+            delayInMinutes: intervall,
+            periodInMinutes: intervall
+        });
     });
+    
 
     chrome.alarms.onAlarm.addListener(function (alarm) {
-        if (alarm.name === "10min") {
+        if (alarm.name === "checkerAlarm") {
             console.log("alarm larm")
             checkForUpdates();
         }
@@ -42,7 +48,7 @@ function notification(link, text) {
         iconUrl: "https://www.st.nu/favicon.ico",
         requireInteraction: true
     }
-
+    console.log("Making notification for "+url);
     chrome.notifications.create(url, opt);
 
 }
@@ -84,12 +90,12 @@ function parsePage(data) {
         links[link] = text;
     });
 
-    chrome.storage.local.get({'linksCache': {}}, function (result) {
+    chrome.storage.local.get({'linksCache': {}, 'notify':true}, function (result) {
 
         var linksCache = result.linksCache;
-
+        var notify = result.notify;
         console.log(linksCache);
-        
+        console.log("notify: "+notify);
         var updateCache = false; //only update if we have new entries
         
         //Iterate all links found on page
@@ -97,7 +103,11 @@ function parsePage(data) {
             
             //Save and notify new articles
             if ( !(link in linksCache) ){
-                notification(link, text);
+                if(notify){
+                    notification(link, text);
+                }else{
+                    console.log("Skipping notification");
+                }
                 var content = getArticleContent(link);
                 console.log(content)
                 linksCache[link]=content;

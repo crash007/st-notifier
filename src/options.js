@@ -34,6 +34,11 @@ function save_options() {
       document.getElementById('intervall').value = items.intervall;
       document.getElementById('notify').checked = items.notify;
     });
+
+    chrome.storage.local.getBytesInUse(function(bytes){
+        console.log(bytes)
+        document.getElementById('mem').textContent = bytes;
+    });
   }
   document.addEventListener('DOMContentLoaded', restore_options);
   document.getElementById('save').addEventListener('click',save_options);

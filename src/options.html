@@ -6,23 +6,26 @@
 </head>
 
 <body>
-<div>
-  Intervall att se efter nya artiklar:
-<select id="intervall">
- <option value="10">10</option>
- <option value="15" selected>15</option>
- <option value="30">30</option>
- <option value="60">60</option>
- <option value="60">60</option>
-</select>
-</div>
-<div>
-  <label>
-    <input type="checkbox" id="notify" checked> Notifiera nya artiklar
-  </label>
-</div>
+  <div>
+    <p><span id="mem"></span> Bytes upptagna av max 5 242 880 i minnet.	</p>
+  </div>
+  <div>
+    Intervall att se efter nya artiklar:
+    <select id="intervall">
+      <option value="10">10 min</option>
+      <option value="15">15 min</option>
+      <option value="30">30 min</option>
+      <option value="60">60 min</option>
+      <option value="120">2h min</option>
+    </select>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" id="notify" checked> Notifiera nya artiklar
+    </label>
+  </div>
   <div id="status"></div>
-  <button id="save">Save</button>
+  <button id="save">Spara</button>
 
   <script src="options.js"></script>
 </body>
