@@ -84,17 +84,13 @@ function parsePage(data) {
         links[link] = text;
     });
 
-    chrome.storage.local.get(['linksCache'], function (result) {
+    chrome.storage.local.get({'linksCache': {}}, function (result) {
 
         var linksCache = result.linksCache;
 
-        if (typeof linksCache === 'undefined') {
-            linksCache = {};
-        }
-
         console.log(linksCache);
         
-        var updateCache = false;
+        var updateCache = false; //only update if we have new entries
         
         //Iterate all links found on page
         $.each(links, function (link, text) {
@@ -112,7 +108,6 @@ function parsePage(data) {
         if(updateCache){
             saveLinksCache(linksCache)
         }
-
     });
 }
 
@@ -125,16 +120,12 @@ function saveLinksCache(linksCache){
 }
 
 function setBadgeText() {
-    chrome.storage.local.get(['linksCache'], function (result) {
+    chrome.storage.local.get({ 'linksCache':{} }, function (result) {
         console.log("Reading saved linksCache:");
         console.log(result);
-        var cacheLength;
         
-        if(result != null && result.linksCache != null) {
-            cacheLength = Object.entries(result.linksCache).length;
-        }else{
-            cacheLength = 0;
-        }
+        var cacheLength = Object.entries(result.linksCache).length;
+        
         console.log(cacheLength);
         chrome.browserAction.setBadgeText({ "text": cacheLength.toString() });
     });
