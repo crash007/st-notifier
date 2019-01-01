@@ -34,6 +34,8 @@ jQuery(document).ready(function () {
                 //Senaste nyheter - top of page
                 $('a[href="'+link+'"] h3 .premium-label.m-icon-plus').addClass("cached-content");
                 
+                //Right now
+                $('.right-now a[href="'+link+'"]').siblings('span.premium-label').addClass('cached-content');
                 //Rest of page
                 $('.content a[href="'+link+'"] ').parent().find('.premium-label.m-icon-plus').addClass('cached-content');
             });
