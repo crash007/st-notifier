@@ -6,7 +6,7 @@
 	"description": "Cache unlocked articles so you can read them later. Get notified when a new unlocked premium article is published on st.nu",
 	"homepage_url": "https://github.com/crash007/st-notifier",
 	"author": "crash007",
-	"permissions": ["storage", "alarms", "notifications", "https://www.st.nu/" ],
+	"permissions": ["downloads","storage", "alarms", "notifications", "https://www.st.nu/" ],
 	"icons": {
 		"128": "st-notifier-128.png"
 	},
@@ -25,6 +25,6 @@
 	],
 	"options_ui": {
 		"page": "options.html",
-		"open_in_tab": false
+		"open_in_tab": true
 	  }
 }
