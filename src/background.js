@@ -147,7 +147,13 @@ function getArticleContent(link){
     jQuery.ajax({
         url: "https://www.st.nu" + link,
         success: function (data) {          
-            result = $(data).find('.single-article')[0].outerHTML;
+            result = $(data).find('.single-article')[0];
+            
+            //Save some space
+            $(result).find('.meta-actions.meta-actions-footer').remove();
+            $(result).find('.ad-placement').closest('.row').remove();
+            
+            result = result.outerHTML;
             //result = $($(data).find('.row.unpadded.single-article')[0])().html();                      
         },
         async: false
