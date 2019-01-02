@@ -15,8 +15,9 @@ chrome.runtime.onInstalled.addListener(function () {
     
 
     chrome.alarms.onAlarm.addListener(function (alarm) {
+        console.log("alarm larm");
         if (alarm.name === "checkerAlarm") {
-            console.log("alarm larm")
+            
             checkForUpdates();
         }
     });

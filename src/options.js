@@ -9,10 +9,14 @@ function save_options() {
         'notify': notify
     }, function () {
 
-        chrome.alarms.get("checkerAlarm", function (alarm) {
-            alarm.periodInMinutes = intervall;
-            console.log(alarm);
+        chrome.alarms.clear("checkerAlarm", function(wasCleared){
+            console.log(wasCleared);
+            chrome.alarms.create("checkerAlarm", {
+                delayInMinutes: 1,
+                periodInMinutes: intervall
+            });
         });
+
 
 
         var status = document.getElementById('status');
@@ -44,6 +48,7 @@ function restore_options() {
 function exportData() {
     console.log("exporting data");
     chrome.storage.local.get({ 'linksCache': {} }, function (result) {
+        console.log(result.linksCache);
         var linksCache = JSON.stringify(result.linksCache);
         console.log(linksCache);
 
