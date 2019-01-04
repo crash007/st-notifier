@@ -154,11 +154,30 @@ function getArticleContent(link){
             $(result).find('.meta-actions.meta-actions-footer').remove();
             $(result).find('.ad-placement').closest('.row').remove();
             
-            result = result.outerHTML.replace(new RegExp('\n\\s+','g'),'\n');
+            result = whiteWashContent(result.outerHTML);
                             
         },
         async: false
     });
     console.log(result);
     return result;
+}
+
+function whiteWashContent(str){
+    return str.replace(new RegExp('\n\\s+','g'),'\n').replace(/>\n</gi, "><");
+}
+
+function runOnce(){
+
+    chrome.storage.local.get({'linksCache':{}}, function (result) {
+
+        var linksCache = result.linksCache;
+        
+        for (const [key, value] of Object.entries(linksCache)) {
+            linksCache[key]=whiteWashContent(value)
+        };
+
+        saveLinksCache(linksCache);
+    });
+    
 }
