@@ -154,8 +154,8 @@ function getArticleContent(link){
             $(result).find('.meta-actions.meta-actions-footer').remove();
             $(result).find('.ad-placement').closest('.row').remove();
             
-            result = result.outerHTML;
-            //result = $($(data).find('.row.unpadded.single-article')[0])().html();                      
+            result = result.outerHTML.replace(new RegExp('\n\\s+','g'),'\n');
+                            
         },
         async: false
     });

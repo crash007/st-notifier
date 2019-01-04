@@ -32,8 +32,8 @@ function save_options() {
 function restore_options() {
     // Use default value color = 'red' and likesColor = true.
     chrome.storage.local.get({
-        'intervall': true,
-        'notify': 15
+        'intervall': 15,
+        'notify': false
     }, function (items) {
         document.getElementById('intervall').value = items.intervall;
         document.getElementById('notify').checked = items.notify;
