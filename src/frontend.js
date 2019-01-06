@@ -22,7 +22,7 @@ jQuery(document).ready(function () {
                     console.log("Cachehit!");
                     $('.locked-wrapper').hide('slow');
                     $('.locked-article-image-wrapper').hide('slow');
-                    $('.row.unpadded.single-article').replaceWith(value);
+                    $('.row.unpadded.single-article').replaceWith(decompress(value));
                     $('.main-wrapper.main-fullwidth .extended-headline').after('<p style="color: orange;">Visar innehåll från cache.</p>');
                     return false; //break loop
                 }
@@ -43,3 +43,4 @@ jQuery(document).ready(function () {
 
     });
 });
+

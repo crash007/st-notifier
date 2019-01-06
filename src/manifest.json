@@ -11,7 +11,7 @@
 		"128": "st-notifier-128.png"
 	},
 	"background": {
-		"scripts": ["libs/jquery-3.3.1.min.js", "background.js"],
+		"scripts": ["libs/jquery-3.3.1.min.js", "background.js", "libs/lz-string.js", "libs/compression.js"],
 		"persistent": false
 	},
 	"browser_action": {},
@@ -19,7 +19,7 @@
         {
 			"css": [ "frontend.css" ],
             "matches": ["http://www.st.nu/*", "https://www.st.nu/*"],
-            "js": ["libs/jquery-3.3.1.min.js", "frontend.js"],
+            "js": ["libs/jquery-3.3.1.min.js", "frontend.js", "libs/lz-string.js","libs/compression.js"],
             "run_at": "document_end"
         }
 	],

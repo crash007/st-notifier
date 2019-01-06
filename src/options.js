@@ -48,7 +48,13 @@ function restore_options() {
 function exportData() {
     console.log("exporting data");
     chrome.storage.local.get({ 'linksCache': {} }, function (result) {
-        console.log(result.linksCache);
+        
+        var linksCache = result.linksCache;
+        console.log(linksCache)
+        for (const [key, value] of Object.entries(linksCache)) {
+            linksCache[key] = decompress(value);
+        }
+
         var linksCache = JSON.stringify(result.linksCache);
         console.log(linksCache);
 
@@ -60,6 +66,7 @@ function exportData() {
         });
     });
 }
+
 
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click', save_options);

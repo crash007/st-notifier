@@ -66,26 +66,21 @@ function parsePage(data) {
     var links = {};
     //data = $(data);
 
-    //Rest of page
-    el = $(data).find('.teaser-content-wrapper > .content')
-        .find('.soft-unlocked.premium-label.m-icon-plus')
-        .parent()
-        .parent()
-        .parent()
-        .parent();
-    
+    //Senaste nytt - top off page
+    var el = $(data).find('.slide').find('.soft-unlocked').parent().parent();
     $.each(el, function (i, e) {
-        var text = $(e).find('.lead-text').text().trim();
-        var link = $(e).find('a').attr("href");
+        var text = $(e).text().trim();
+        var link = $(e).attr("href");
         console.log(link + " " + text);
         links[link] = text;
     });
 
 
-    //Senaste nytt - top off page
-    var el = $(data).find('.slide').find('.soft-unlocked').parent().parent();
+    //Rest of page
+    el = $(data).find('.teaser-content-wrapper  .content  .soft-unlocked.premium-label.m-icon-plus').closest('.content').find('a').not('.teaser-text');
+    
     $.each(el, function (i, e) {
-        var text = $(e).text().trim();
+        var text = $(e).find('h2').text().trim();
         var link = $(e).attr("href");
         console.log(link + " " + text);
         links[link] = text;
@@ -111,7 +106,7 @@ function parsePage(data) {
                 }
                 var content = getArticleContent(link);
                 console.log(content)
-                linksCache[link]=content;
+                linksCache[link]=compress(content);
                 updateCache = true;
             }
         });
@@ -164,7 +159,7 @@ function getArticleContent(link){
 }
 
 function whiteWashContent(str){
-    return str.replace(new RegExp('\n\\s+','g'),'\n').replace(/>\n</gi, "><");
+    return str.replace(new RegExp('\n\\s+','g'),'\n').replace(/>\n</gi, '><');
 }
 
 function runOnce(){
@@ -174,7 +169,7 @@ function runOnce(){
         var linksCache = result.linksCache;
         
         for (const [key, value] of Object.entries(linksCache)) {
-            linksCache[key]=whiteWashContent(value)
+            linksCache[key]=compress(decompress(value));
         };
 
         saveLinksCache(linksCache);
