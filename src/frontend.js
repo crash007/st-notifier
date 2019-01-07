@@ -2,7 +2,6 @@ jQuery(document).ready(function () {
     chrome.storage.local.get(['linksCache'], function (result) {
            
         var linksCache = result.linksCache;
-        console.log(linksCache);
        
         var relativePath = window.location.pathname;
 

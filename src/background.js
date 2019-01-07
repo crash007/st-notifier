@@ -86,7 +86,7 @@ function parsePage(data) {
         links[link] = text;
     });
 
-    chrome.storage.local.get({'linksCache': {}, 'notify':true}, function (result) {
+    chrome.storage.local.get({'linksCache': {}, 'notify':false}, function (result) {
 
         var linksCache = result.linksCache;
         var notify = result.notify;
@@ -105,7 +105,6 @@ function parsePage(data) {
                     console.log("Skipping notification");
                 }
                 var content = getArticleContent(link);
-                console.log(content)
                 linksCache[link]=compress(content);
                 updateCache = true;
             }
@@ -154,7 +153,6 @@ function getArticleContent(link){
         },
         async: false
     });
-    console.log(result);
     return result;
 }
 
@@ -169,7 +167,7 @@ function runOnce(){
         var linksCache = result.linksCache;
         
         for (const [key, value] of Object.entries(linksCache)) {
-            linksCache[key]=compress(decompress(value));
+            linksCache[key]=compress(decompressOld(value));
         };
 
         saveLinksCache(linksCache);
