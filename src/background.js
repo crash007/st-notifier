@@ -167,7 +167,7 @@ function runOnce(){
         var linksCache = result.linksCache;
         
         for (const [key, value] of Object.entries(linksCache)) {
-            linksCache[key]=compress(decompressOld(value));
+            linksCache[key]=compress(decompress(value));
         };
 
         saveLinksCache(linksCache);

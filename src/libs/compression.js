@@ -16,11 +16,6 @@ function decompress(compressed){
     return replaceVariables(decompressed);
 }
 
-function decompressOld(compressed){
-    var decompressed= LZString.decompressFromUTF16(compressed);
-    return replaceVariablesOld(decompressed);
-}
-
 function insertVariables(content){
    
     var originalLength = content.length;
@@ -29,7 +24,7 @@ function insertVariables(content){
         content = content.split(value).join('$'+index+'$');   
     });
     var diff = originalLength- content.length;
-    console.log("Inserting variables. length before was "+originalLength+"  and length after "+content.length+ " , difference: "+diff+' , procent: '+(content.length/originalLength));
+    console.log("Length before variables "+originalLength+"  and length after "+content.length+ " , difference: "+diff+' , procent: '+(content.length/originalLength));
     
     return content;
 }
@@ -121,7 +116,12 @@ function getReplacementStrings(){
         ,'<p class="body">'
         ,'@mittmedia.se" class="email">'
         ,'</p><blockquote class="pull-quote">'
-        
+        ,'onerror="this.style.display=\'none !important\'"></div><div class="byline-caption"><div class="byline-caption-inner"><div class="byline" itemprop="copyrightHolder">'
+        ,'</figcaption><div class="byline" itemprop="copyrightHolder">'
+        ,'ratio-4-3"><iframe id="resource-'
+        ,'scrolling="no" class="googlemaps-resource" allowfullscreen=""></iframe><script>\n(function() {\nvar iframe = document.getElementById("resource-id-'
+        ,'");\nfunction messageHandler(event) {\ntry {\nvar data = JSON.parse(event.data);\nif(data.origin === \'https://resource-service.mmcloud.se/api/v1/resources/ssl/'
+        ,'{\niframe.height = data.height;\n}\n} catch(e) {}\n}\nif(window.addEventListener) {\nwindow.addEventListener("message", messageHandler, false);\n} else {\nwindow.attachEvent("onmessage", messageHandler);\n}\n})();\n</script>'
     ];
 }
 
