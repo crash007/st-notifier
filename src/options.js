@@ -47,19 +47,18 @@ function restore_options() {
 
 function exportData() {
     console.log("exporting data");
-    chrome.storage.local.get({ 'linksCache': {} }, function (result) {
+    readCacheFromStorage(function (linksCache) {
         
-        var linksCache = result.linksCache;
         console.log(linksCache)
         for (const [key, value] of Object.entries(linksCache)) {
             linksCache[key] = decompress(value);
         }
 
-        var linksCache = JSON.stringify(result.linksCache);
-        console.log(linksCache);
+        var linksCacheStr = JSON.stringify(linksCache);
+        console.log(linksCacheStr);
 
         // Save as file
-        var url = 'data:application/json;base64,' + btoa(unescape(encodeURIComponent(linksCache)));
+        var url = 'data:application/json;base64,' + btoa(unescape(encodeURIComponent(linksCacheStr)));
         chrome.downloads.download({
             url: url,
             filename: 'export.json'

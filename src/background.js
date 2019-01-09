@@ -36,7 +36,7 @@ chrome.runtime.onInstalled.addListener(function () {
 function clearCache(){
     console.log("clearing cache");
     //saving empty object
-    saveLinksCache({});
+    updateCacheAndBadge({});
 }
 
 function notification(link, text) {
@@ -86,55 +86,48 @@ function parsePage(data) {
         links[link] = text;
     });
 
-    chrome.storage.local.get({'linksCache': {}, 'notify':false}, function (result) {
-
-        var linksCache = result.linksCache;
-        var notify = result.notify;
-        console.log(linksCache);
-        console.log("notify: "+notify);
-        var updateCache = false; //only update if we have new entries
-        
-        //Iterate all links found on page
-        $.each(links, function (link, text) {
-            
-            //Save and notify new articles
-            if ( !(link in linksCache) ){
-                if(notify){
-                    notification(link, text);
-                }else{
-                    console.log("Skipping notification");
-                }
-                var content = getArticleContent(link);
-                linksCache[link]=compress(content);
-                updateCache = true;
-            }
+        readCacheAndNotifyParametersFromStorage(function(linksCache,notify){
+            updateCacheAndNotify(linksCache,notify,links);
         });
-        
-        if(updateCache){
-            saveLinksCache(linksCache)
-        }
-    });
+
 }
 
-function saveLinksCache(linksCache){
-    chrome.storage.local.set({ 'linksCache': linksCache }, function () {
-        console.log('Saving linksCache: '); 
-        console.log(linksCache);
-        setBadgeText();
+function updateCacheAndNotify(linksCache, notify, links) {
+    console.log("updateCacheAndNotify")
+    var updateCache = false; //only update if we have new entries
+    //Iterate all links found on page
+    $.each(links, function (link, text) {
+        //Save and notify new articles
+        if (!(link in linksCache)) {
+            if (notify) {
+                notification(link, text);
+            }
+            else {
+                console.log("Skipping notification");
+            }
+            var content = getArticleContent(link);
+            linksCache[link] = compress(content);
+            updateCache = true;
+        }
     });
+    if (updateCache) {
+        updateCacheAndBadge(linksCache);
+    }
+}
+
+function updateCacheAndBadge(linksCache){
+    saveCacheToStorage(linksCache, setBadgeText);
 }
 
 function setBadgeText() {
-    chrome.storage.local.get({ 'linksCache':{} }, function (result) {
-        console.log("Reading saved linksCache:");
-        console.log(result);
-        
-        var cacheLength = Object.entries(result.linksCache).length;
-        
-        console.log(cacheLength);
-        chrome.browserAction.setBadgeText({ "text": cacheLength.toString() });
-    });
+    readCacheFromStorage(function(cacheMap){
+            chrome.browserAction.setBadgeText({ "text": Object.entries(cacheMap).length.toString() });
+        } 
+     );
 }
+
+
+
 
 function getArticleContent(link){
 
@@ -170,7 +163,7 @@ function runOnce(){
             linksCache[key]=compress(decompress(value));
         };
 
-        saveLinksCache(linksCache);
+        updateCacheAndBadge(linksCache);
     });
     
 }
