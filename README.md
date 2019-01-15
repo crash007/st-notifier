@@ -10,3 +10,11 @@ The addon scrapes st.nu once every 10,15,30,45(optional) minutes for free articl
 
 when visiting st.nu the articles for cached articles will be of a different color so its easy to see what article exist in cache.
 
+
+# Install:
+
+1. download zip
+2. unzip
+3. Goto extensions in chrome
+4. open uncompressed extension
+5. select the unzipped folder
