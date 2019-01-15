@@ -1,37 +1,56 @@
+import { link } from "fs";
+
 function readCacheFromStorage(callbackFn){
-    chrome.storage.local.get({ 'linksCache':{} }, function (result) {
+    chrome.storage.local.get({ 'linksCache':[] }, function (result) {
         console.log("Reading saved linksCache:");
-        console.log(result);
         cache = result.linksCache;
         callbackFn(cache);
     });
 }
 
 function readCacheAndNotifyParametersFromStorage(callbackFn){
-    chrome.storage.local.get({ 'linksCache':{} ,'notify':false}, function (result) {
+    chrome.storage.local.get({ 'linksCache':[] ,'notify':false}, function (result) {
         console.log("Reading saved linksCache:");
-        console.log(result);
-        console.log(arguments);
         cache = result.linksCache;
         notify = result.notify;
         callbackFn(cache,notify);
     });
 }
 
-function saveCacheToStorage(linksCache, callbackFn){
-    chrome.storage.local.set({ 'linksCache': linksCache }, function () {
-        console.log('Saving linksCache: '); 
-        console.log(linksCache);
-        callbackFn();
-    });
+function saveCachemapToStorage(cacheMap, callbackFn){
+  
+    var linksCache = cacheMapToArray(cacheMap);
+    set(link);
+
+    function set(linksCache){
+        chrome.storage.local.set({ 'linksCache': linksCache }, function () {
+            console.log('Saving linksCache: '); 
+            var error = chrome.runtime.lastError;  
+            if (error) {  
+                console.log(error);
+                set(linksCache.shift());
+            } else{
+                callbackFn();
+            }
+        });
+    }
 }
 
 
 function cacheArrayToMap(arr){
     result = new Map();
     
-    arr.forEach(function(e){
-        result.set(e.key,e.value);
+    $(arr).each(function(){
+        result.set(this.key, this.value);
     });
+    return result;
+}
+
+function cacheMapToArray(map){
+   
+    result = [];
+    for (const [key, value] of map.entries()) {
+        result.push({key, value});
+    };
     return result;
 }

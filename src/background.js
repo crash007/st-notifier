@@ -92,13 +92,14 @@ function parsePage(data) {
 
 }
 
-function updateCacheAndNotify(linksCache, notify, links) {
+function updateCacheAndNotify(cache, notify, links) {
+    var cacheMap = cacheArrayToMap(cache);
     console.log("updateCacheAndNotify")
     var updateCache = false; //only update if we have new entries
     //Iterate all links found on page
     $.each(links, function (link, text) {
         //Save and notify new articles
-        if (!(link in linksCache)) {
+        if (!(link in cacheMap.keys)) {
             if (notify) {
                 notification(link, text);
             }
@@ -106,22 +107,22 @@ function updateCacheAndNotify(linksCache, notify, links) {
                 console.log("Skipping notification");
             }
             var content = getArticleContent(link);
-            linksCache[link] = compress(content);
+            cacheMap.set(link,compress(content));
             updateCache = true;
         }
     });
     if (updateCache) {
-        updateCacheAndBadge(linksCache);
+        updateCacheMapAndBadge(cacheMap);
     }
 }
 
-function updateCacheAndBadge(linksCache){
-    saveCacheToStorage(linksCache, setBadgeText);
+function updateCacheMapAndBadge(cacheMap){
+    saveCachemapToStorage(cacheMap, setBadgeText);
 }
 
 function setBadgeText() {
-    readCacheFromStorage(function(cacheMap){
-            chrome.browserAction.setBadgeText({ "text": Object.entries(cacheMap).length.toString() });
+    readCacheFromStorage(function(cache){
+            chrome.browserAction.setBadgeText({ "text": cache.length.toString() });
         } 
      );
 }
@@ -157,13 +158,13 @@ function runOnce(){
 
     chrome.storage.local.get({'linksCache':{}}, function (result) {
 
-        var linksCache = result.linksCache;
-        
-        for (const [key, value] of Object.entries(linksCache)) {
-            linksCache[key]=compress(decompress(value));
-        };
+            var linksCache = result.linksCache;
+            var result = new Map();
+            for (const [key, value] of Object.entries(linksCache)) {
+                //linksCache[key]=compress(decompress(value));
+                result.set(key,value);
+            };
 
-        updateCacheAndBadge(linksCache);
-    });
-    
+            updateCacheMapAndBadge(result);
+        });
 }

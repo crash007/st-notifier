@@ -2,10 +2,9 @@
 
 jQuery(document).ready(function () {
    
-    readCacheFromStorage(function(linksCache){
+    readCacheFromStorage(function(cache){
         var relativePath = window.location.pathname;
     
-            
             //Visiting an premium article
             if(relativePath.includes("/logga-in")){
                 
@@ -14,21 +13,22 @@ jQuery(document).ready(function () {
     
                 console.log("Searching for "+searchKey+" , in cache");
                 
-                for (const [key, value] of Object.entries(linksCache)) {
-                    console.log(key);
+                //var e = cache.find(function(e){return e.key.contains(searchKey)});
+                $(cache).each(function(){
                     
-                    if(key.includes(searchKey)){
+                    if(this.key.includes(searchKey) ){
                         console.log("Cachehit!");
                         $('.locked-wrapper').hide('slow');
                         $('.locked-article-image-wrapper').hide('slow');
-                        $('.row.unpadded.single-article').replaceWith(decompress(value));
+                        $('.row.unpadded.single-article').replaceWith(decompress(this.value));
                         $('.main-wrapper.main-fullwidth .extended-headline').after('<p style="color: orange;">Visar innehåll från cache.</p>');
                         return false; //break loop
                     }
-                }
+                });
             }else{
                 //main page relace icons
-                Object.keys(linksCache).forEach(function(link){
+                $(cache).each(function(i,e){
+                    var link = e.key;
                     console.log(link);
                     //Senaste nyheter - top of page
                     $('a[href="'+link+'"] h3 .premium-label.m-icon-plus').addClass("cached-content");
