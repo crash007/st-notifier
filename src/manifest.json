@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
-	"name": "St.nu article cacher and notifier",
-	"short_name": "St.nu cacher",
+	"name": "STay updated",
+	"short_name": "STay",
 	"version": "0.1",
 	"description": "Cache unlocked articles so you can read them later. Get notified when a new unlocked premium article is published on st.nu",
 	"homepage_url": "https://github.com/crash007/st-notifier",
