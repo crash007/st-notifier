@@ -1,4 +1,4 @@
-import { link } from "fs";
+//import { link } from "fs";
 
 function readCacheFromStorage(callbackFn){
     chrome.storage.local.get({ 'linksCache':[] }, function (result) {
@@ -20,7 +20,7 @@ function readCacheAndNotifyParametersFromStorage(callbackFn){
 function saveCachemapToStorage(cacheMap, callbackFn){
   
     var linksCache = cacheMapToArray(cacheMap);
-    set(link);
+    set(linksCache);
 
     function set(linksCache){
         chrome.storage.local.set({ 'linksCache': linksCache }, function () {
