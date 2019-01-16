@@ -49,12 +49,13 @@ function exportData() {
     console.log("exporting data");
     readCacheFromStorage(function (linksCache) {
         
-        console.log(linksCache)
-        for (const [key, value] of Object.entries(linksCache)) {
-            linksCache[key] = decompress(value);
-        }
+        var result =[];
+        console.log(linksCache);
+        $(linksCache).each(function(){
+            result.push(this.key, decompress(this.value));
+        });
 
-        var linksCacheStr = JSON.stringify(linksCache);
+        var linksCacheStr = JSON.stringify(result);
         console.log(linksCacheStr);
 
         // Save as file
