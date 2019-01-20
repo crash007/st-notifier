@@ -12,8 +12,8 @@
 		"128": "st-notifier-128.png"
 	},
 	"background": {
-		"scripts": ["libs/jquery-3.3.1.min.js", "common.js", "background.js", "libs/lz-string.js", "libs/compression.js"],
-		"persistent": false
+		"scripts": ["libs/jquery-3.3.1.min.js", "common.js", "background.js", "libs/lz-string.js", "libs/compression.js"]
+		//"persistent": false
 	},
 	"browser_action": {
 		"default_popup": "options.html"
