@@ -1,6 +1,6 @@
 # STay updated 
 
-article cacher and notifier - Chrome extension
+article cacher and notifier - Chrome,firefox and opera extension
 
 Cache articles on st.nu while they are free so you can read then from cache when they end up behind
 the paywall.
