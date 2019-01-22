@@ -9,14 +9,26 @@
 	"author": "crash007",
 	"permissions": ["downloads","storage", "alarms", "notifications", "https://www.st.nu/" ],
 	"icons": {
-		"128": "st-notifier-128.png"
+		//"128": "st-notifier-128.png"
+		"16": "data/icon_news_16x16px.png",
+		"32": "data/icon_news_32x32px.png",
+		"48": "data/icon_news_48x48px.png",
+		"128": "data/icon_news_128x128px.png"
+		
+		
 	},
 	"background": {
 		"scripts": ["libs/jquery-3.3.1.min.js", "common.js", "background.js", "libs/lz-string.js", "libs/compression.js"]
 		//"persistent": false
 	},
 	"browser_action": {
-		"default_popup": "options.html"
+		"default_popup": "options.html",
+		"default_icon": {
+			"16": "data/icon_news_16x16px.png",
+			"32": "data/icon_news_32x32px.png",
+			"48": "data/icon_news_48x48px.png",
+			"128": "data/icon_news_128x128px.png"
+		  }
 	},
 	"content_scripts": [
         {
