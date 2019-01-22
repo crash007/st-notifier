@@ -42,6 +42,7 @@ function restore_options() {
     chrome.storage.local.getBytesInUse(function (bytes) {
         console.log(bytes)
         document.getElementById('mem').textContent = bytes;
+        document.getElementById('mem-div').style.display="block";
     });
 }
 
