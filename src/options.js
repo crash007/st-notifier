@@ -63,7 +63,8 @@ function exportData() {
         var url = 'data:application/json;base64,' + btoa(unescape(encodeURIComponent(linksCacheStr)));
         chrome.downloads.download({
             url: url,
-            filename: 'export.json'
+            filename: 'export.json',
+            conflictAction : 'uniquify'
         });
     });
 }
