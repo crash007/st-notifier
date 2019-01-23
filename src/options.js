@@ -39,11 +39,19 @@ function restore_options() {
         document.getElementById('notify').checked = items.notify;
     });
 
-    chrome.storage.local.getBytesInUse(function (bytes) {
-        console.log(bytes)
-        document.getElementById('mem').textContent = bytes;
-        document.getElementById('mem-div').style.display="block";
+    if(typeof chrome.storage.local.getBytesInUse == 'function') { 
+        chrome.storage.local.getBytesInUse(function (bytes) {
+            console.log(bytes)
+            document.getElementById('mem').textContent = bytes;
+            document.getElementById('mem-div').style.display="block";
+        }); 
+    }
+    
+    readCacheFromStorage(function(linksCache){
+        console.log(linksCache.length);
+        document.getElementById('article-count').textContent = linksCache.length;
     });
+
 }
 
 function exportData() {
