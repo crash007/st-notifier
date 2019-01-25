@@ -1,8 +1,8 @@
 function save_options() {
     var intervall = Number(document.getElementById('intervall').value);
     var notify = document.getElementById('notify').checked;
-    console.log(intervall);
-    console.log(notify);
+    console.log("Intervall: "+intervall);
+    console.log("Notify: "+ notify);
 
     chrome.storage.local.set({
         'intervall': intervall,
@@ -17,8 +17,6 @@ function save_options() {
             });
         });
 
-
-
         var status = document.getElementById('status');
         status.textContent = 'Sparat';
         setTimeout(function () {
@@ -27,10 +25,7 @@ function save_options() {
     });
 }
 
-// Restores select box and checkbox state using the preferences
-// stored in chrome.storage.
 function restore_options() {
-    // Use default value color = 'red' and likesColor = true.
     chrome.storage.local.get({
         'intervall': 15,
         'notify': false
@@ -68,9 +63,9 @@ function exportData() {
         console.log(linksCacheStr);
 
         // Save as file
-        var url = 'data:application/json;base64,' + btoa(unescape(encodeURIComponent(linksCacheStr)));
+        var blob = new Blob([linksCacheStr], {type: "application/json"});
         chrome.downloads.download({
-            url: url,
+            url: URL.createObjectURL(blob),
             filename: 'export.json',
             conflictAction : 'uniquify'
         });

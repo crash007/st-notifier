@@ -13,15 +13,12 @@ jQuery(document).ready(function () {
     
                 console.log("Searching for "+searchKey+" , in cache");
                 
-                //var e = cache.find(function(e){return e.key.contains(searchKey)});
                 $(cache).each(function(){
                     
                     if(this.key.includes(searchKey) ){
                         console.log("Cachehit!");
-                        $('.locked-wrapper').hide('slow');
-                        $('.locked-article-image-wrapper').hide('slow');
-                        $('.row.unpadded.single-article').replaceWith(decompress(this.value));
-                        $('.main-wrapper.main-fullwidth .extended-headline').after('<p style="color: orange;">Visar innehåll från cache.</p>');
+                        $('.locked-wrapper').hide(1000);//, done:  
+                        replaceContent(decompress(this.value));//});
                         return false; //break loop
                     }
                 });
@@ -42,3 +39,10 @@ jQuery(document).ready(function () {
     });
 });
 
+function replaceContent(content){
+    console.log("replaceing content");
+    $('.row.unpadded.single-article').replaceWith(content).hide('fast').show(2000);
+    $('.main-wrapper.main-fullwidth .extended-headline').after('<p style="color: orange;">STanna uppdaterad: Visar innehåll från cache.</p>');
+    $('.locked-article-image-wrapper').hide(1000);
+    
+}
