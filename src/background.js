@@ -134,13 +134,13 @@ function getArticleContent(link, cacheMap){
     return jQuery.ajax({
         url: "https://www.st.nu" + link,
         success: function (data) {          
-            result = $(data).find('.single-article')[0];
+            let result = $(data).find('.single-article')[0];
             
             //Save some space
             $(result).find('.meta-actions.meta-actions-footer').remove();
             $(result).find('.ad-placement').closest('.row').remove();
             
-            let result = whiteWashContent(result.outerHTML);
+            result = whiteWashContent(result.outerHTML);
             cacheMap.set(link,compress(result));
                             
         },
