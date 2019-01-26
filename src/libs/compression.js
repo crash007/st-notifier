@@ -1,13 +1,9 @@
 function compress(content){
     
-    //Firefox compatible
+    //save space in storage
     var replaced = insertVariables(content);
-    //console.log(replaced);
-    var compressedContent = LZString.compressToUTF16(content);
     var compressedReplaced = LZString.compressToUTF16(replaced);
-
-    diff = compressedContent.length-compressedReplaced.length;
-    console.log("Compressionsize of unreplaced: "+compressedContent.length+" and compressionsize of replaced "+compressedReplaced.length+" , difference: " +diff);
+    console.log("Compressed size: "+ compressedReplaced.length+" , before: "+replaced.length);
     return compressedReplaced;
 }
 
@@ -31,7 +27,6 @@ function insertVariables(content){
 
 
 function replaceVariables(content){
-    console.log("replaceing variables");
     var strings = getReplacementStrings();
     $.each(strings, function(index, value){
         content = content.split('$'+index+'$').join(value);

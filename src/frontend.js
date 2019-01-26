@@ -26,7 +26,7 @@ jQuery(document).ready(function () {
                 //main page relace icons
                 $(cache).each(function(i,e){
                     var link = e.key;
-                    console.log(link);
+                    
                     //Senaste nyheter - top of page
                     $('a[href="'+link+'"] h3 .premium-label.m-icon-plus').addClass("cached-content");
                     

@@ -1,8 +1,5 @@
-//import { link } from "fs";
-
 function readCacheFromStorage(callbackFn){
     chrome.storage.local.get({ 'linksCache':[] }, function (result) {
-        console.log("Reading saved linksCache:");
         cache = result.linksCache;
         callbackFn(cache);
     });
@@ -10,7 +7,6 @@ function readCacheFromStorage(callbackFn){
 
 function readCacheAndNotifyParametersFromStorage(callbackFn){
     chrome.storage.local.get({ 'linksCache':[] ,'notify':false}, function (result) {
-        console.log("Reading saved linksCache:");
         cache = result.linksCache;
         notify = result.notify;
         callbackFn(cache,notify);
@@ -24,10 +20,10 @@ function saveCachemapToStorage(cacheMap, callbackFn){
 
     function set(linksCache){
         chrome.storage.local.set({ 'linksCache': linksCache }, function () {
-            console.log('Saving linksCache: '); 
             var error = chrome.runtime.lastError;  
             if (error) {  
                 console.log(error);
+                //Remove the oldest article and try again
                 set(linksCache.shift());
             } else{
                 callbackFn();

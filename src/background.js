@@ -5,8 +5,7 @@ chrome.runtime.onInstalled.addListener(function () {
     
     chrome.storage.local.get({'intervall': 15}, function(result){
         var intervall = result.intervall;
-        console.log(intervall);
-
+        
         chrome.alarms.create("checkerAlarm", {
             delayInMinutes: intervall,
             periodInMinutes: intervall
@@ -23,21 +22,12 @@ chrome.runtime.onInstalled.addListener(function () {
     });
 
     chrome.notifications.onClicked.addListener(function (url) {
-        console.log('click notification');
         chrome.tabs.create({ url: url });
         chrome.notifications.clear(url);
     });
-
-    //chrome.browserAction.onClicked.addListener(clearCache);
     
 });
 
-
-function clearCache(){
-    console.log("clearing cache");
-    //saving empty object
-    updateCacheAndBadge({});
-}
 
 function notification(link, text) {
     var url = "https://www.st.nu" + link;
@@ -71,7 +61,7 @@ function parsePage(data) {
     $.each(el, function (i, e) {
         var text = $(e).text().trim();
         var link = $(e).attr("href");
-        console.log(link + " " + text);
+        //console.log(link + " " + text);
         links[link] = text;
     });
 
@@ -82,7 +72,7 @@ function parsePage(data) {
     $.each(el, function (i, e) {
         var text = $(e).find('h2').text().trim();
         var link = $(e).attr("href");
-        console.log(link + " " + text);
+        //console.log(link + " " + text);
         links[link] = text;
     });
 
@@ -94,26 +84,35 @@ function parsePage(data) {
 
 function updateCacheAndNotify(cache, notify, links) {
     var cacheMap = cacheArrayToMap(cache);
-    console.log("updateCacheAndNotify")
+    //console.log("updateCacheAndNotify")
     var updateCache = false; //only update if we have new entries
     //Iterate all links found on page
+    
+    var linksNotIncache = [];
     $.each(links, function (link, text) {
         //Save and notify new articles
-        if (!(link in cacheMap.keys)) {
+        
+        if (!cacheMap.has(link)) {
             if (notify) {
                 notification(link, text);
             }
-            else {
-                console.log("Skipping notification");
-            }
-            var content = getArticleContent(link);
-            cacheMap.set(link,compress(content));
+            linksNotIncache.push(link);
+            
             updateCache = true;
         }
     });
-    if (updateCache) {
-        updateCacheMapAndBadge(cacheMap);
+
+    if(updateCache){
+        var deferreds = $.map(linksNotIncache, function(link) {
+            return getArticleContent(link,cacheMap);
+        });
+
+        $.when.apply($, deferreds).then(function() {
+            console.log('All calls done');
+            updateCacheMapAndBadge(cacheMap);
+        });
     }
+
 }
 
 function updateCacheMapAndBadge(cacheMap){
@@ -130,10 +129,9 @@ function setBadgeText() {
 
 
 
-function getArticleContent(link){
+function getArticleContent(link, cacheMap){
 
-    var result;
-    jQuery.ajax({
+    return jQuery.ajax({
         url: "https://www.st.nu" + link,
         success: function (data) {          
             result = $(data).find('.single-article')[0];
@@ -142,29 +140,14 @@ function getArticleContent(link){
             $(result).find('.meta-actions.meta-actions-footer').remove();
             $(result).find('.ad-placement').closest('.row').remove();
             
-            result = whiteWashContent(result.outerHTML);
+            let result = whiteWashContent(result.outerHTML);
+            cacheMap.set(link,compress(result));
                             
         },
-        async: false
+        async: true
     });
-    return result;
 }
 
 function whiteWashContent(str){
     return str.replace(new RegExp('\n\\s+','g'),'\n').replace(/>\n</gi, '><');
-}
-
-function runOnce(){
-
-    chrome.storage.local.get({'linksCache':{}}, function (result) {
-
-            var linksCache = result.linksCache;
-            var result = new Map();
-            for (const [key, value] of Object.entries(linksCache)) {
-                //linksCache[key]=compress(decompress(value));
-                result.set(key,value);
-            };
-
-            updateCacheMapAndBadge(result);
-        });
 }

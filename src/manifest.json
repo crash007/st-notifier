@@ -5,21 +5,16 @@
 	"version": "0.12",
 	"description": "__MSG_appDesc__",
 	"default_locale": "sv",
-	"homepage_url": "https://github.com/crash007/st-notifier",
 	"author": "crash007",
 	"permissions": ["downloads","storage", "alarms", "notifications", "https://www.st.nu/" ],
 	"icons": {
-		//"128": "st-notifier-128.png"
 		"16": "data/icon_16x16.png",
 		"32": "data/icon_32x32.png",
 		"48": "data/icon_48x48.png",
 		"128": "data/icon_128x128.png"
-		
-		
 	},
 	"background": {
 		"scripts": ["libs/jquery-3.3.1.min.js", "common.js", "background.js", "libs/lz-string.js", "libs/compression.js"]
-		//"persistent": false
 	},
 	"browser_action": {
 		"default_popup": "options.html",
