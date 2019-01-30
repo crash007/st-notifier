@@ -10,22 +10,19 @@ chrome.runtime.onInstalled.addListener(function () {
             delayInMinutes: intervall,
             periodInMinutes: intervall
         });
-    });
-    
+    }); 
+});
 
-    chrome.alarms.onAlarm.addListener(function (alarm) {
-        console.log("alarm larm");
-        if (alarm.name === "checkerAlarm") {
-            
-            checkForUpdates();
-        }
-    });
+chrome.alarms.onAlarm.addListener(function (alarm) {
+    console.log("alarm larm");
+    if (alarm.name === "checkerAlarm") {       
+        checkForUpdates();
+    }
+});
 
-    chrome.notifications.onClicked.addListener(function (url) {
-        chrome.tabs.create({ url: url });
-        chrome.notifications.clear(url);
-    });
-    
+chrome.notifications.onClicked.addListener(function (url) {
+    chrome.tabs.create({ url: url });
+    chrome.notifications.clear(url);
 });
 
 
