@@ -1,3 +1,7 @@
 .premium-label.cached-content::before{
     color:orange;
 }
+.ad-placement {
+
+	display:none;
+}

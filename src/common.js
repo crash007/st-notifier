@@ -24,7 +24,8 @@ function saveCachemapToStorage(cacheMap, callbackFn){
             if (error) {  
                 console.log(error);
                 //Remove the oldest article and try again
-                set(linksCache.shift());
+		linksCache.shift();
+                set(linksCache);
             } else{
                 callbackFn();
             }
