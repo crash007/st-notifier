@@ -23,17 +23,12 @@ jQuery(document).ready(function () {
                     }
                 });
             }else{
-                //main page relace icons
+                //main page icon class
                 $(cache).each(function(i,e){
                     var link = e.key;
                     
-                    //Senaste nyheter - top of page
-                    $('a[href="'+link+'"] h3 .premium-label.m-icon-plus').addClass("cached-content");
-                    
-                    //Right now
-                    $('.right-now a[href="'+link+'"]').siblings('span.premium-label').addClass('cached-content');
-                    //Rest of page
-                    $('.content a[href="'+link+'"] ').parent().find('.premium-label.m-icon-plus').addClass('cached-content');
+    	        	$('a[href="'+link+'"] .premium-label.m-icon-plus').not('.soft-unlocked').addClass("cached-content");
+
                 });
             }
     });

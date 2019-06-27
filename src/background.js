@@ -1,16 +1,10 @@
-chrome.runtime.onInstalled.addListener(function () {
+chrome.storage.local.get({'intervall': 45}, function(result){
+    var intervall = result.intervall;
 
-    setBadgeText();
-    checkForUpdates();
-    
-    chrome.storage.local.get({'intervall': 15}, function(result){
-        var intervall = result.intervall;
-        
-        chrome.alarms.create("checkerAlarm", {
-            delayInMinutes: intervall,
-            periodInMinutes: intervall
-        });
-    }); 
+    chrome.alarms.create("checkerAlarm", {
+        delayInMinutes: 1,
+        periodInMinutes: intervall
+    });
 });
 
 chrome.alarms.onAlarm.addListener(function (alarm) {
