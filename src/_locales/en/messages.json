@@ -1,8 +1,8 @@
 {
   "appName": {
     "message": "Stay updated"
-  },
+  }/*,
   "appDesc": {
-    "message": "Cache unlocked articles so you can read them later. Get notified when a new unlocked premium article is published on st.nu."
-  }
+    "message": "Cache new articles so you can read them later. Get notified when a new article is published on st.nu."
+  }*/
 }
