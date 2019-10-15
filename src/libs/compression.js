@@ -29,7 +29,9 @@ function insertVariables(content){
 function replaceVariables(content){
     var strings = getReplacementStrings();
     $.each(strings, function(index, value){
-        content = content.split('$'+index+'$').join(value);
+        if(content) {
+            content = content.split('$' + index + '$').join(value);
+        }
     });
     return content;
 }

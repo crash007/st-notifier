@@ -49,30 +49,6 @@ function restore_options() {
 
 }
 
-function exportData() {
-    console.log("exporting data");
-    readCacheFromStorage(function (linksCache) {
-        
-        var result =[];
-        console.log(linksCache);
-        $(linksCache).each(function(){
-            result.push(this.key, decompress(this.value));
-        });
-
-        var linksCacheStr = JSON.stringify(result);
-        console.log(linksCacheStr);
-
-        // Save as file
-        var blob = new Blob([linksCacheStr], {type: "application/json"});
-        chrome.downloads.download({
-            url: URL.createObjectURL(blob),
-            filename: 'export.json',
-            conflictAction : 'uniquify'
-        });
-    });
-}
-
 
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click', save_options);
-document.getElementById('export').addEventListener('click', exportData);

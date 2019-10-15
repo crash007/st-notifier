@@ -23,8 +23,8 @@ function saveCachemapToStorage(cacheMap, callbackFn){
             var error = chrome.runtime.lastError;  
             if (error) {  
                 console.log(error);
-                //Remove the oldest article and try again
-		linksCache.shift();
+                //Remove the oldest articles and try again
+		        linksCache.splice(0,30);
                 set(linksCache);
             } else{
                 callbackFn();
