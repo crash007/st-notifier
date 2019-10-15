@@ -1,15 +1,18 @@
 function compress(content){
     
     //save space in storage
-    var replaced = insertVariables(content);
-    var compressedReplaced = LZString.compressToUTF16(replaced);
-    console.log("Compressed size: "+ compressedReplaced.length+" , before: "+replaced.length);
-    return compressedReplaced;
+    //var replaced = insertVariables(content);
+    //var compressedReplaced = LZString.compressToUTF16(replaced);
+    //console.log("Compressed size: "+ compressedReplaced.length+" , before: "+replaced.length);
+    //return compressedReplaced;
+    return content;
 }
 
 function decompress(compressed){
-    var decompressed= LZString.decompressFromUTF16(compressed);
-    return replaceVariables(decompressed);
+   
+// var decompressed= LZString.decompressFromUTF16(compressed);
+   // return replaceVariables(decompressed);
+return compressed;
 }
 
 function insertVariables(content){

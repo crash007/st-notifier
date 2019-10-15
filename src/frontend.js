@@ -36,7 +36,7 @@ jQuery(document).ready(function () {
 
 function replaceContent(content){
     console.log("replaceing content");
-    $('.row.unpadded.single-article').replaceWith(content).hide('fast').show(2000);
+    $('.premium-content-main-article').replaceWith(content).hide('fast').show(2000);
     $('.main-wrapper.main-fullwidth .extended-headline').after('<p style="color: orange;">STanna uppdaterad: Visar innehåll från cache.</p>');
     $('.locked-article-image-wrapper').hide(1000);
     

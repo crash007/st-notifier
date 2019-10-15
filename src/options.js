@@ -75,4 +75,3 @@ function exportData() {
 
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click', save_options);
-document.getElementById('export').addEventListener('click', exportData);

@@ -6,7 +6,7 @@
 	"description": "__MSG_appDesc__",
 	"default_locale": "sv",
 	"author": "crash007",
-	"permissions": ["downloads","storage", "alarms", "notifications", "https://www.st.nu/" ],
+	"permissions": ["storage", "alarms", "notifications", "https://www.st.nu/" ],
 	"icons": {
 		"16": "data/icon_16x16.png",
 		"32": "data/icon_32x32.png",
@@ -29,7 +29,7 @@
 			"css": [ "frontend.css" ],
             "matches": ["http://www.st.nu/*", "https://www.st.nu/*"],
             "js": ["libs/jquery-3.3.1.min.js", "common.js", "frontend.js", "libs/lz-string.js","libs/compression.js"],
-            "run_at": "document_end"
+            "run_at": "document_start"
         }
 	],
 	"options_ui": {

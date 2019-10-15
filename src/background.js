@@ -125,7 +125,7 @@ function getArticleContent(link, cacheMap){
     return jQuery.ajax({
         url: "https://www.st.nu" + link,
         success: function (data) {          
-            let result = $(data).find('.single-article')[0];
+            let result = $(data).find('.premium-content-main-article')[0];
             
             //Save some space
             $(result).find('.meta-actions.meta-actions-footer').remove();
