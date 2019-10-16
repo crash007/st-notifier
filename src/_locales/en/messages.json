@@ -1,8 +1,5 @@
 {
   "appName": {
     "message": "Stay updated"
-  }/*,
-  "appDesc": {
-    "message": "Cache new articles so you can read them later. Get notified when a new article is published on st.nu."
-  }*/
+  }
 }

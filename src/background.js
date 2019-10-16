@@ -129,7 +129,7 @@ function getArticleContent(link, cacheMap){
             
             //Save some space
             $(result).find('.meta-actions.meta-actions-footer').remove();
-            $(result).find('.ad-placement').closest('.row').remove();
+            $(result).find('.ad-placement').remove();
             
             result = whiteWashContent(result.outerHTML);
             cacheMap.set(link,result);
