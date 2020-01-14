@@ -18,7 +18,7 @@ jQuery(document).ready(function () {
                     if(this.key.includes(searchKey) ){
                         console.log("Cachehit!");
                         $('.locked-wrapper').hide(1000);
-                        if(this.value.includes("d")){
+                        if(this.value.includes("div")){
                             replaceContent(this.value);
                         }else{
                             replaceContent(decompress(this.value));;
@@ -31,9 +31,8 @@ jQuery(document).ready(function () {
                 //main page icon class
                 $(cache).each(function(i,e){
                     var link = e.key;
-                    
     	        	$('a[href="'+link+'"] .premium-label.m-icon-plus').not('.soft-unlocked').addClass("cached-content");
-
+                    $('.right-now a[href="'+link+'"]').closest('h2').find('.premium-label.m-icon-plus').not('.soft-unlocked').addClass("cached-content");
                 });
             }
     });
