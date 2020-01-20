@@ -45,17 +45,18 @@ function checkForUpdates() {
 function parsePage(data) {
 
     var links = {};
-    //data = $(data);
 
     //Senaste nytt - top off page
+
     var el = $(data).find('.slide').find('.soft-unlocked').parent().parent();
+
     $.each(el, function (i, e) {
         var text = $(e).text().trim();
         var link = $(e).attr("href");
-        //console.log(link + " " + text);
+
         links[link] = text;
     });
-
+/*
 
     //Rest of page
     el = $(data).find('.teaser-content-wrapper  .content  .soft-unlocked.premium-label.m-icon-plus').closest('.content').find('a').not('.teaser-text');
@@ -66,7 +67,14 @@ function parsePage(data) {
         //console.log(link + " " + text);
         links[link] = text;
     });
-
+*/
+    el = $(data).find('a:has(.soft-unlocked)');
+    $.each(el, function (i, e) {
+        var text = $(e).find('h2').text().trim();
+        var link = $(e).attr("href");
+        //console.log(link + " " + text);
+        links[link] = text;
+    });
         readCacheAndNotifyParametersFromStorage(function(linksCache,notify){
             updateCacheAndNotify(linksCache,notify,links);
         });
