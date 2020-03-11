@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "__MSG_appName__",
 	"short_name": "STay",
-	"version": "0.22",
+	"version": "0.23",
 	"default_locale": "sv",
 	"author": "crash007",
 	"permissions": ["storage", "alarms", "notifications", "https://www.st.nu/" ],
