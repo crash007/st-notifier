@@ -36,7 +36,7 @@ function notification(link, text) {
 }
 
 function checkForUpdates() {
-    $.get("https://www.st.nu", function (data) {
+    $.get("https://www.st.nu/alla", function (data) {
         parsePage(data)
     });
 }
@@ -56,18 +56,7 @@ function parsePage(data) {
 
         links[link] = text;
     });
-/*
 
-    //Rest of page
-    el = $(data).find('.teaser-content-wrapper  .content  .soft-unlocked.premium-label.m-icon-plus').closest('.content').find('a').not('.teaser-text');
-    
-    $.each(el, function (i, e) {
-        var text = $(e).find('h2').text().trim();
-        var link = $(e).attr("href");
-        //console.log(link + " " + text);
-        links[link] = text;
-    });
-*/
     el = $(data).find('a:has(.soft-unlocked)');
     $.each(el, function (i, e) {
         var text = $(e).find('h2').text().trim();
@@ -126,8 +115,6 @@ function setBadgeText() {
 }
 
 
-
-
 function getArticleContent(link, cacheMap){
 
     return jQuery.ajax({
@@ -138,10 +125,17 @@ function getArticleContent(link, cacheMap){
             //Save some space
             $(result).find('.meta-actions.meta-actions-footer').remove();
             $(result).find('.ad-placement').remove();
-	    $(result).find('.article-meta').remove();
             $(result).find('meta').remove();
+            $(result).find('aside.box-ad').remove();
+            //$(result).find('.read-more').remove();
+            $(result).find('.header > .article-meta').remove(); //plus icon in beginning
+            $(result).find('.article-actions').remove(); //twitter and facebook links
+
+
+
             result = whiteWashContent(result.outerHTML);
-            cacheMap.set(link,result);
+            cacheMap.set(link,compress(result));
+            //cacheMap.set(link, result);
                             
         },
         async: true
